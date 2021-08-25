@@ -12,6 +12,10 @@ function AnimalList() {
     }
   }
 
+  const moveToTop = (animalIndex) => {
+    setAnimal([animals[animalIndex], ...animals.slice(0, animalIndex), ...animals.slice(animalIndex + 1)])
+  }
+
   return (
     <div>
       <table>
@@ -29,6 +33,7 @@ function AnimalList() {
               <td key={index}>{animal.name}</td>
               <td key={index}>{animal.yearOfBirth ? animal.yearOfBirth.toLocaleDateString() : 'Unknown'}</td>
               <button onClick={() => remove(index)}>Remove</button>
+              <button onClick={() => moveToTop(index)}>Move to the Top</button>
             </tr>
           ))}
         </tbody>
