@@ -1,13 +1,16 @@
 import { useState } from "react";
+import AnimalService from "../services/AnimalService";
 
 function AnimalList() {
-  const [animals, setAnimal] = useState([
-    {species: 'Lion', name: 'Alex', yearOfBirth: ''},
-    {species: 'Zebra', name: 'Marty', yearOfBirth: new Date('02-07-2014')},
-    {species: 'Giraffe', name: 'Melman', yearOfBirth: ''},
-    {species: 'Hippopotamus', name: 'Gloria', yearOfBirth: new Date('07-13-2013')},
-    {species: 'Lemur', name: 'Julian', yearOfBirth: new Date('09-23-2015')},
-  ])
+  const [animals, setAnimal] = useState(AnimalService.getAll());
+
+  const remove = (animalIndex) => {
+    const isDeleted = AnimalService.remove(animalIndex)
+
+    if (isDeleted) {
+      setAnimal(animals.filter((animals, index) => index !== animalIndex));
+    }
+  }
 
   return (
     <div>
@@ -25,6 +28,7 @@ function AnimalList() {
               <td key={index}>{animal.species}</td>
               <td key={index}>{animal.name}</td>
               <td key={index}>{animal.yearOfBirth ? animal.yearOfBirth.toLocaleDateString() : 'Unknown'}</td>
+              <button onClick={() => remove(index)}>Remove</button>
             </tr>
           ))}
         </tbody>
