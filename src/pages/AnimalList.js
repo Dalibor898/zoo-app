@@ -2,6 +2,13 @@ import { useState } from "react";
 import AnimalService from "../services/AnimalService";
 
 function AnimalList() {
+  const [newAnimal, setNewAnimal] = useState([
+    {
+      species: '',
+      name: '',
+      yearOfBirth: '',
+    }
+  ])
   const [animals, setAnimal] = useState(AnimalService.getAll());
 
   const remove = (animalIndex) => {
@@ -16,8 +23,46 @@ function AnimalList() {
     setAnimal([animals[animalIndex], ...animals.slice(0, animalIndex), ...animals.slice(animalIndex + 1)])
   }
 
+  const handleSpeciesChange = (e) => {
+    setNewAnimal({
+      ...newAnimal,
+      species: e.target.value,
+    })
+  }
+
+  const handleNameChange = (e) => {
+    setNewAnimal({
+      ...newAnimal,
+      name: e.target.value,
+    })
+  }
+
+  const handleDateChange = (e) => {
+    setNewAnimal({
+      ...newAnimal,
+      yearOfBirth: new Date(e.target.value),
+    })
+  }
+
+  const addAnimal = (e) => {
+    e.preventDefault();
+
+    setAnimal([...animals, newAnimal])
+    setNewAnimal({
+      species: '',
+      name: '',
+      yearOfBirth: '',
+    })
+  }
+
   return (
     <div>
+      <form onSubmit={addAnimal}>
+        <input type="text" placeholder="species" onChange={handleSpeciesChange}/>
+        <input type="text" placeholder="name" onChange={handleNameChange}/>
+        <input type="date" onChange={handleDateChange}/>
+        <button>Add animal</button>
+      </form>
       <table>
         <thead>
           <tr>

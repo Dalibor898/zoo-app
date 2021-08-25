@@ -18,6 +18,12 @@ class AnimalService {
 
     return true
   }
+
+  add(newAnimal) {
+    this.animals.push({...newAnimal})
+
+    return this.animals[this.animals.length - 1]
+  }
 }
 
 export default new AnimalService();
